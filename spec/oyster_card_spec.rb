@@ -32,4 +32,27 @@ describe Oystercard do
       expect(subject.balance).to eq 60
     end
   end
+
+  describe '#touch_in' do
+    it { is_expected.to respond_to :touch_in }
+
+  end
+
+  describe '#touch_out' do
+    it { is_expected.to respond_to :touch_out }
+  end
+
+  describe '#in_journey' do
+    it "return true if card is in journey" do
+      subject.touch_in
+      expect(subject.in_journey?).to be true
+    end
+
+    it "return false if card in not in journey" do
+      subject.touch_out
+      expect(subject.in_journey?).to be false
+    end
+
+  end
+
 end
