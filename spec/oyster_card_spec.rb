@@ -48,7 +48,8 @@ describe Oystercard do
       expect(subject.in_journey?).to be true
     end
 
-    it "return false if card in not in journey" do
+    it "return false if card is not in journey" do
+      subject.touch_in
       subject.touch_out
       expect(subject.in_journey?).to be false
     end
