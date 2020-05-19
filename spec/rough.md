@@ -14,3 +14,12 @@ card.balance
 => 0
 card.touch_in
 => Some error
+
+
+card = Oystercard.rb
+card.balance
+=> min_balance
+card.touch_in
+(in journey)
+=> card.touch_out
+card.deduct(min_balance)
