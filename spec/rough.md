@@ -58,3 +58,7 @@ hash = { }
 #journey
 journey_hash = {@entry_station, @exit_station}
 return journey_hash
+
+
+IRB
+station = Station.new(name, zone)
