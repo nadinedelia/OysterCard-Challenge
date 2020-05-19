@@ -15,10 +15,6 @@ class Oystercard
     @balance += value
   end
 
-  def deduct(value)
-    @balance -= value
-  end
-
   def touch_in
     fail "Balance is bellow minimum threshold" if @balance < MIN_BALANCE
 
@@ -26,7 +22,7 @@ class Oystercard
   end
 
   def touch_out
-    @balance -= MIN_BALANCE
+    deduct(MIN_BALANCE)
 
     @journey = false
   end
@@ -36,6 +32,10 @@ class Oystercard
   end
 
   private
+
+  def deduct(value)
+    @balance -= value
+  end
 
   def max_balance_exceeded?(top_up_value)
     @balance + top_up_value > MAX_BALANCE

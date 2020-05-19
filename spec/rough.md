@@ -23,3 +23,13 @@ card.touch_in
 (in journey)
 => card.touch_out
 card.deduct(min_balance)
+
+IRB
+card = Oystercard.new 
+card.top_up(MIN_BALANCE)
+card.touch_in(station)
+=> @entry_station = station
+card.entry_station
+=> station
+card.touch_out
+=> nil

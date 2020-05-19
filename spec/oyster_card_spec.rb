@@ -1,6 +1,9 @@
 require 'oyster_card'
 
 describe Oystercard do
+
+  let(:station) { double :station }
+
   describe '#balance' do
     it { is_expected.to respond_to :balance }
 
@@ -23,15 +26,15 @@ describe Oystercard do
     end
   end
 
-  describe '#deduct' do
-    it { is_expected.to respond_to(:deduct).with(1).argument }
+  #describe '#deduct' do
+  #  it { is_expected.to respond_to(:deduct).with(1).argument }
 
-    it 'deducts card balance using passed argument as value' do
-      subject.top_up(80)
-      subject.deduct(20)
-      expect(subject.balance).to eq 60
-    end
-  end
+  #  it 'deducts card balance using passed argument as value' do
+  #    subject.top_up(80)
+  #    subject.deduct(20)
+  #    expect(subject.balance).to eq 60
+  #  end
+  #end
 
   describe '#in_journey?' do
     it "does not start in a journey" do
@@ -50,6 +53,12 @@ describe Oystercard do
 
     it "raises an error when trying to touch in with a balance of less than 1" do
       expect{ subject.touch_in }.to raise_error "Balance is bellow minimum threshold"
+    end
+
+    it "remembers the current entry station" do
+      subject.top_up(Oystercard::MIN_BALANCE)
+      subject.touch_in(station)
+      expect(subject.entry_station).to eq station
     end
   end
 
