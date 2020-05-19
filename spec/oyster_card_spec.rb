@@ -92,5 +92,11 @@ describe Oystercard do
       subject.touch_out(exit_station)
       expect(subject.journey).to eq({ entry_station => exit_station })
     end
+
+      it "checks that card has empty list of journeys by default" do
+        expect(subject.journey).to be_empty
+      end
+
   end
+
 end
