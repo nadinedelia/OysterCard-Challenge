@@ -47,12 +47,12 @@ describe Oystercard do
 
     it "sets the card to be in journey" do
       subject.top_up(Oystercard::MIN_BALANCE)
-      subject.touch_in
+      subject.touch_in(station)
       expect(subject).to be_in_journey
     end
 
     it "raises an error when trying to touch in with a balance of less than 1" do
-      expect{ subject.touch_in }.to raise_error "Balance is bellow minimum threshold"
+      expect{ subject.touch_in(station) }.to raise_error "Balance is bellow minimum threshold"
     end
 
     it "remembers the current entry station" do
@@ -67,7 +67,7 @@ describe Oystercard do
 
     it "sets the card to not be in journey" do
       subject.top_up(Oystercard::MIN_BALANCE)
-      subject.touch_in
+      subject.touch_in(station)
       subject.touch_out
       expect(subject).not_to be_in_journey
     end
