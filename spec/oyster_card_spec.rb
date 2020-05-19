@@ -33,27 +33,27 @@ describe Oystercard do
     end
   end
 
-  describe '#touch_in' do
-    it { is_expected.to respond_to :touch_in }
-
+  it "card is not originally in journey" do
+    expect(subject).not_to be_in_journey
   end
 
-  describe '#touch_out' do
-    it { is_expected.to respond_to :touch_out }
+  it "card can touch in" do
+    subject.touch_in
+    expect(subject).to be_in_journey
   end
 
-  describe '#in_journey' do
-    it "return true if card is in journey" do
-      subject.touch_in
-      expect(subject.in_journey?).to be true
-    end
-
-    it "return false if card is not in journey" do
-      subject.touch_in
-      subject.touch_out
-      expect(subject.in_journey?).to be false
-    end
-
+  it "card can touch out" do
+    subject.touch_in
+    subject.touch_out
+    expect(subject).not_to be_in_journey
   end
 
+  # describe '#touch_in' do
+  #   it { is_expected.to respond_to :touch_in }
+  #
+  # end
+  #
+  # describe '#touch_out' do
+  #   it { is_expected.to respond_to :touch_out }
+  # end
 end
