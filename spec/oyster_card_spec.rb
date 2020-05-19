@@ -2,7 +2,8 @@ require 'oyster_card'
 
 describe Oystercard do
 
-  let(:station) { double :station }
+  let(:entry_station) { double :entry_station }
+  let(:exit_station) { double :exit_station }
 
   describe '#balance' do
     it { is_expected.to respond_to :balance }
@@ -43,38 +44,53 @@ describe Oystercard do
   end
 
   describe '#touch_in' do
-    it { is_expected.to respond_to :touch_in }
+    it { is_expected.to respond_to(:touch_in).with(1).argument }
 
     it "sets the card to be in journey" do
       subject.top_up(Oystercard::MIN_BALANCE)
-      subject.touch_in(station)
+      subject.touch_in(entry_station)
       expect(subject).to be_in_journey
     end
 
     it "raises an error when trying to touch in with a balance of less than 1" do
-      expect{ subject.touch_in(station) }.to raise_error "Balance is bellow minimum threshold"
+      expect{ subject.touch_in(entry_station) }.to raise_error "Balance is bellow minimum threshold"
     end
 
     it "remembers the current entry station" do
       subject.top_up(Oystercard::MIN_BALANCE)
-      subject.touch_in(station)
-      expect(subject.entry_station).to eq station
+      subject.touch_in(entry_station)
+      expect(subject.entry_station).to eq entry_station
     end
   end
 
   describe '#touch_out' do
-    it { is_expected.to respond_to :touch_out }
+    it { is_expected.to respond_to(:touch_out).with(1).argument }
 
     it "sets the card to not be in journey" do
       subject.top_up(Oystercard::MIN_BALANCE)
-      subject.touch_in(station)
-      subject.touch_out
+      subject.touch_in(entry_station)
+      subject.touch_out(exit_station)
       expect(subject).not_to be_in_journey
     end
 
     it "deducts fare when touching out" do
-      expect { subject.touch_out }.to change{ subject.balance }.by (- Oystercard::MIN_BALANCE)
+      expect { subject.touch_out(exit_station) }.to change{ subject.balance }.by (- Oystercard::MIN_BALANCE)
+    end
+
+    it "remembers the current exit station" do
+      subject.top_up(Oystercard::MIN_BALANCE)
+      subject.touch_in(entry_station)
+      subject.touch_out(exit_station)
+      expect(subject.exit_station).to eq exit_station
     end
   end
 
+  describe '#journey' do
+    it "returns the entry and exit stations of a journey" do
+      subject.top_up(Oystercard::MIN_BALANCE)
+      subject.touch_in(entry_station)
+      subject.touch_out(exit_station)
+      expect(subject.journey).to eq({ entry_station => exit_station })
+    end
+  end
 end

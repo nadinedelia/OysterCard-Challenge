@@ -25,7 +25,7 @@ card.touch_in
 card.deduct(min_balance)
 
 IRB
-card = Oystercard.new 
+card = Oystercard.new
 card.top_up(MIN_BALANCE)
 card.touch_in(station)
 => @entry_station = station
@@ -33,3 +33,28 @@ card.entry_station
 => station
 card.touch_out
 => nil
+
+IRB
+card = Oystercard.new
+card.top_up(MIN_BALANCE)
+card.touch_in(station_a)
+=> @entry_station = station_a
+card.touch_out(station_b)
+=> @exit_station = station_b
+card.journey
+=> {station_a => station_b}
+
+
+
+
+hash = { }
+
+# touch in
+@entry_station
+
+# touch out
+@exit_station
+
+#journey
+journey_hash = {@entry_station, @exit_station}
+return journey_hash
